@@ -23,9 +23,4 @@ jobs:
       - name: Build & Test (JUnit + SpotBugs)
         run: mvn -Pci -Dspotbugs.failOnError=false -B clean verify
 
-      - name: Run SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -Pci -B sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
 

@@ -17,21 +17,21 @@
     <sonar.maven.plugin.version>3.10.0.2594</sonar.maven.plugin.version>
   </properties>
 
-<repositories>
-  <repository>
-    <id>central</id>
-    <url>https://repo1.maven.org/maven2/</url>
-  </repository>
-</repositories>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+  </repositories>
 
-<pluginRepositories>
-  <pluginRepository>
-    <id>central-plugins</id>
-    <url>https://repo1.maven.org/maven2/</url>
-  </pluginRepository>
-</pluginRepositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>central-plugins</id>
+      <url>https://repo1.maven.org/maven2/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <dependencies>
-    <!-- JUnit 5 -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -39,7 +39,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Gson (Java 8-friendly verzija) -->
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
@@ -48,54 +47,59 @@
   </dependencies>
 
   <build>
-  <plugins>
-    <!-- Compiler: verzija koja radi sa Maven 3.0.5 -->
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <version>3.1</version>
-      <configuration>
-        <source>1.8</source>
-        <target>1.8</target>
-      </configuration>
-    </plugin>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
 
-    <!-- Surefire: potreban za JUnit 5; 2.22.2 radi sa Maven 3.0.x -->
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-plugin</artifactId>
-      <version>2.22.2</version>
-      <configuration>
-        <useModulePath>false</useModulePath>
-      </configuration>
-    </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+        <configuration>
+          <useModulePath>false</useModulePath>
+        </configuration>
+      </plugin>
 
-    <!-- SpotBugs: zadrži, ako bude problema spusti na 4.7.3.4 ili 3.1.12 -->
-    <plugin>
-      <groupId>com.github.spotbugs</groupId>
-      <artifactId>spotbugs-maven-plugin</artifactId>
-      <version>3.1.12</version>
-      <configuration>
-        <effort>Max</effort>
-        <threshold>Low</threshold>
-      </configuration>
-      <executions>
-        <execution>
-          <phase>verify</phase>
-          <goals><goal>check</goal></goals>
-        </execution>
-      </executions>
-    </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>${sonar.maven.plugin.version}</version>
+      </plugin>
+    </plugins>
+  </build>
 
-    <!-- SonarQube: ako ova verzija pravi problem, privremeno je ukloni,
-         ili koristi stariju (npr. 3.7.0.1746) -->
-    <plugin>
-      <groupId>org.sonarsource.scanner.maven</groupId>
-      <artifactId>sonar-maven-plugin</artifactId>
-      <version>3.7.0.1746</version>
-    </plugin>
-  </plugins>
-</build>
-
+  <profiles>
+    <profile>
+      <id>ci</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
+            <version>${spotbugs.plugin.version}</version>
+            <configuration>
+              <effort>Max</effort>
+              <threshold>Low</threshold>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
 

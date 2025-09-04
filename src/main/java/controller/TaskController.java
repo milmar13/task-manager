@@ -21,12 +21,6 @@ public class TaskController {
         this.service = service;
     }
 
-    public void addTask(String title, String desc, int pr, LocalDate due) {
-        Task t = new Task(title, desc, pr, due);
-        t.setStatus(Task.Status.TODO);        
-        service.add(t);
-    }
-
     public List<Task> listTasks() {
         return service.list();
     }
@@ -40,4 +34,11 @@ public class TaskController {
         service.setSortStrategy(new service.sort.SortByPriority());
         return service.sortCurrent();
     }
+
+    public void addTask(String title, String desc, int pr, LocalDate due, String projectName, String categoryName) {
+        service.addTask(title, desc, pr, due, projectName, categoryName);
+    }
+
+    public void updateStatus(long id, Task.Status newStatus) {
+        service.updateStatus(id, newStatus);    }
 }

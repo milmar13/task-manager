@@ -5,8 +5,12 @@
  */
 package service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import model.Category;
+import model.Project;
 import model.Task;
 import model.Task.Status;
 import repository.TaskRepository;
@@ -19,6 +23,7 @@ import service.sort.SortStrategy;
 public class TaskService {
     private final TaskRepository repo;
     private SortStrategy sortStrategy;
+    private long idCount = 1;
 
     public TaskService(TaskRepository repo) {   
         this.repo = repo;
@@ -54,8 +59,58 @@ public class TaskService {
         this.sortStrategy = s; 
     }
     
-    public java.util.List<model.Task> sortCurrent() {
+    public List<model.Task> sortCurrent() {
         List<model.Task> all = repo.findAll();
         return (sortStrategy == null) ? all : sortStrategy.sort(all);
 }
+
+    public void addTask(String title, String desc, int priority, LocalDate due, String projectName, String categoryName) {
+        Project project = new Project();
+        project.setName(projectName);
+
+        Category category = new Category();
+        category.setName(categoryName);
+
+        Task t;
+            t = new Task();
+            t.setId(idCount++);
+            t.setTitle(title);
+            t.setDescription(desc);
+            t.setPriority(priority);
+            t.setDueDate(due);
+            t.setStatus(Task.Status.TODO);
+            t.setProject(project);
+            t.setCategory(category);
+        repo.save(t);    }
+
+    public void updateStatus(long id, Status newStatus) {
+        Optional<Task> opt = findById(id);
+        if (!opt.isPresent()) return;
+
+        Task t = opt.get();
+        t.setStatus(newStatus);
+
+        List<Task> all = list();
+        for (int i = 0; i < all.size(); i++) {
+            if (equalsId(all.get(i).getId(), id)) {
+                all.set(i, t);
+                break;
+            }
+        }
+        repo.saveAll(all);
+    }
+    
+     public Optional<Task> findById(long id) {
+        for (Task t : list()) {
+            if (equalsId(t.getId(), id)) return Optional.of(t);
+        }
+        return Optional.empty();
+    }
+
+    private boolean equalsId(Long a, long b) {
+        return a != null && a == b;
+    }
+    
+    
+    
 }

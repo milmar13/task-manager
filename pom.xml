@@ -14,7 +14,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>5.10.2</junit.version>
     <spotbugs.plugin.version>4.8.6.4</spotbugs.plugin.version>
-    <sonar.maven.plugin.version>3.10.0.2594</sonar.maven.plugin.version>
   </properties>
 
   <repositories>
@@ -66,36 +65,36 @@
           <useModulePath>false</useModulePath>
         </configuration>
       </plugin>
+    </plugins>
   </build>
 
   <profiles>
-  <profile>
-    <id>ci</id>
-    <build>
-      <plugins>
-        <plugin>
-          <groupId>com.github.spotbugs</groupId>
-          <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>${spotbugs.plugin.version}</version>
-          <configuration>
-            <effort>Max</effort>
-            <threshold>Low</threshold>
-            <failOnError>false</failOnError>  
-            <xmlOutput>true</xmlOutput>        
-          </configuration>
-          <executions>
-            <execution>
-              <phase>verify</phase>
-              <goals>
-                <goal>spotbugs</goal>         
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </build>
-  </profile>
-</profiles>
-
+    <profile>
+      <id>ci</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
+            <version>${spotbugs.plugin.version}</version>
+            <configuration>
+              <effort>Max</effort>
+              <threshold>Low</threshold>
+              <failOnError>false</failOnError>
+              <xmlOutput>true</xmlOutput>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>spotbugs</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
 

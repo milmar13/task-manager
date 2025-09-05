@@ -18,12 +18,7 @@ public class User {
     private String name;
     private String email;
     private List<Project> projects = new ArrayList<>();
-
     public User() {}
-    public User(int id, String name, String email) {
-        this.id = id; this.name = name; this.email = email;
-    }
-
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getName() { return name; }
@@ -33,6 +28,11 @@ public class User {
     public List<Project> getProjects() { return projects; }
     public void setProjects(List<Project> projects) { this.projects = projects; }
 
+    
+    public User(int id, String name, String email) {
+        this.id = id; this.name = name; this.email = email;
+    }
+    
     @Override public String toString() { return "User{" + id + ", " + name + ", " + email + "}"; }
     @Override public boolean equals(Object o){ return o instanceof User && Objects.equals(id, ((User)o).id); }
     @Override public int hashCode(){ return Objects.hashCode(id); }

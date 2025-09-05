@@ -41,4 +41,13 @@ public class TaskController {
 
     public void updateStatus(long id, Task.Status newStatus) {
         service.updateStatus(id, newStatus);    }
+
+    public void addComment(long taskId, String author, String content) {
+        service.addComment(taskId, author, content);
+    }
+
+    public void addAttachment(long taskId, String fileName, String path) {
+        service.addAttachment(taskId, fileName, path);
+
+    }
 }

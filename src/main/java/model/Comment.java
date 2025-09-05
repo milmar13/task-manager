@@ -14,19 +14,19 @@ import java.util.Objects;
  */
 public class Comment {
     private int id;
-    private User author;
+    private Task author;
     private String content;
     private LocalDateTime createdAt;
 
     public Comment() {}
-    public Comment(int id, User author, String content, LocalDateTime createdAt) {
+    public Comment(int id, Task author, String content, LocalDateTime createdAt) {
         this.id = id; this.author = author; this.content = content; this.createdAt = createdAt;
     }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
-    public User getAuthor() { return author; }
-    public void setAuthor(User author) { this.author = author; }
+    public Task getAuthor() { return author; }
+    public void setAuthor(Task author) { this.author = author; }
     public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
     public LocalDateTime getCreatedAt() { return createdAt; }

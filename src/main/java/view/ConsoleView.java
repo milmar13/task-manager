@@ -26,11 +26,13 @@ public class ConsoleView {
         while (true) {
             System.out.println();
             System.out.println("=== Task Manager ===");
-            System.out.println("1) Dodaj");
-            System.out.println("2) Prikaži sve");
+            System.out.println("1) Dodaj zadatak: ");
+            System.out.println("2) Prikaži sve: ");
             System.out.println("3) Sort by due");
             System.out.println("4) Sort by priority");
-            System.out.println("5) Promeni status zadatka");
+            System.out.println("5) Promeni status zadatka: ");
+            System.out.println("6) Dodaj komentar: ");
+            System.out.println("7) Dodaj attachment: ");
             System.out.println("0) Kraj");
             System.out.print("Izbor: ");
 
@@ -92,6 +94,32 @@ public class ConsoleView {
                     System.out.println("Status izmenjen na: " + newStatus);
                     break;
                 }
+                case "6": {
+                    System.out.print("ID zadatka: ");
+                    long taskId = parseLongSafe(sc.nextLine(), -1);
+                    System.out.print("Autor komentara: ");
+                    String author = sc.nextLine().trim();
+                    System.out.print("Tekst komentara: ");
+                    String content = sc.nextLine().trim();
+
+                    controller.addComment(taskId, author, content);
+                    System.out.println("Komentar dodat.");
+                    break;
+                }
+
+                case "7": {
+                    System.out.print("ID zadatka: ");
+                    long taskId = parseLongSafe(sc.nextLine(), -1);
+                    System.out.print("Naziv fajla: ");
+                    String fileName = sc.nextLine().trim();
+                    System.out.print("Putanja: ");
+                    String path = sc.nextLine().trim();
+
+                    controller.addAttachment(taskId, fileName, path);
+                    System.out.println("Attachment dodat.");
+                    break;
+                }
+
                 case "0":
                     System.out.println("Dovidjenja!");
                     return;

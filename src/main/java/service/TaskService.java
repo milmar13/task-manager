@@ -6,13 +6,17 @@
 package service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import model.Attachment;
 import model.Category;
+import model.Comment;
 import model.Project;
 import model.Task;
 import model.Task.Status;
+import model.User;
 import repository.TaskRepository;
 import service.sort.SortStrategy;
 
@@ -109,6 +113,42 @@ public class TaskService {
 
     private boolean equalsId(Long a, long b) {
         return a != null && a == b;
+    }
+
+    public void addComment(long taskId, String author, String content) {
+        Optional<Task> opt = findById(taskId);
+        if (!opt.isPresent()) return;
+
+            Task t = opt.get();
+
+            Comment c = new Comment();
+            c.setId((int) System.currentTimeMillis());
+            c.setContent(content);
+            c.setCreatedAt(LocalDateTime.now());
+
+    
+            t.getComments().add(c);
+
+            updateStatus(taskId, t.getStatus());
+    }
+
+    public void addAttachment(long taskId, String fileName, String path) {
+        Optional<Task> opt = findById(taskId);
+    if (!opt.isPresent()) return;
+
+    Task t = opt.get();
+
+    Attachment a = new Attachment();
+    a.setId((int) System.currentTimeMillis());
+    a.setFileName(fileName);
+    a.setPath(path);
+
+    if (t.getAttachments() == null) {
+        t.setAttachments(new ArrayList<>());
+    }
+    t.getAttachments().add(a);
+
+    updateStatus(taskId, t.getStatus());
     }
     
     

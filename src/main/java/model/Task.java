@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Task {
-public enum Status { TODO, IN_PROGRESS, DONE }
+
+    public enum Status { TODO, IN_PROGRESS, DONE }
 
     private Long id;
     private String title;
@@ -151,4 +152,16 @@ public enum Status { TODO, IN_PROGRESS, DONE }
     public int hashCode() {
         return Objects.hashCode(id);
     }
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(ArrayList<Object> attachments) {
+
+    }
+    
 }
